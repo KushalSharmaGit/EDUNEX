@@ -5,8 +5,9 @@ const {hashPassword} = require("../utils/helpers")
 const createUser =asyncHandler ( async (req , res) =>{
     let { name, email, password}= req.body;
     if(!name || !email || !password){
-        res.status(400);
-        throw new Error("All fields are neccessary")
+        return res.status(400).json({
+            message: "All feilds are required"
+        })
     }
     password = hashPassword(password);
     const user = await User.create({
@@ -17,5 +18,22 @@ const createUser =asyncHandler ( async (req , res) =>{
     res.status(201).json(user);
 });
 
+const logoutUser = (req, res) =>{
+    req.logout(()=>{
+        res.status(200).json({
+            message:"User logged out sucesfully"
+        })
+    });
 
-module.exports = {createUser};
+}
+
+const currentUser = (req,res) =>{
+    if(!req.user){
+        return res.status(401).json({
+            message: "Kindly Log in"
+        })
+    }
+    res.status(200).send(req.user);
+}
+
+module.exports = {createUser, logoutUser, currentUser};

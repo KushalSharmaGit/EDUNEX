@@ -23,7 +23,7 @@ app.use(errorHandler)
 // Handling cookies and sessions 
 
 app.use(cookieParser("helloworld"));
-	app.use(
+app.use(
 		session({
 			secret: "Edunex",
 			saveUninitialized: true,
@@ -35,7 +35,7 @@ app.use(cookieParser("helloworld"));
 				client: mongoose.connection.getClient(),
 			}),
 		})
-	);
+);
 
 // Using passport 
 app.use(passport.initialize());
@@ -43,6 +43,7 @@ app.use(passport.session());
 
 // Defining the routes
 app.use("/api/user" , require('./routes/userRoutes'));
+app.use("api/codes", require('./routes/codeRoutes'))
 
 app.listen(port, () => {
     console.log(`App listening on port ${port}`)
