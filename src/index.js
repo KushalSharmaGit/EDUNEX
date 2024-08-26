@@ -10,6 +10,7 @@ const MongoStore = require("connect-mongo");
 const passport = require("./strategies/local-startegy");
 const { default: mongoose } = require("mongoose");
 const { isAuthenticated } = require("./Middelware/isAuthenticated");
+const { isAdmin} = require("./Middelware/isAdmin");
 
 // Connecting to the database 
 connectDb();
@@ -45,6 +46,7 @@ app.use(passport.session());
 // Defining the routes
 app.use("/api/user" , require('./routes/userRoutes'));
 app.use("/api/codes", isAuthenticated ,require('./routes/codeRoutes'))
+app.use("/api/post", isAdmin ,require('./routes/postRoutes'))
 
 app.listen(port, () => {
     console.log(`App listening on port ${port}`)
