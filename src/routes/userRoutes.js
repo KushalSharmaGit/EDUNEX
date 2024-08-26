@@ -2,8 +2,8 @@ const express = require("express");
 const router = express.Router();
 const passport = require("passport");
 const {createUser, logoutUser, currentUser} = require('../contoller/userController')
+const {isAuthenticated} = require('../Middelware/isAuthenticated')
 
-const User = require('../model/User');
 
 router.post('/register', createUser)
 
@@ -15,6 +15,6 @@ router.post(
 	}
 );
 router.post("/logout", logoutUser)
-router.get('/current', currentUser)
+router.get('/current',isAuthenticated, currentUser)
 
 module.exports = router;

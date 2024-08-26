@@ -9,6 +9,7 @@ const MongoStore = require("connect-mongo");
 //const passport = require("passport");
 const passport = require("./strategies/local-startegy");
 const { default: mongoose } = require("mongoose");
+const { isAuthenticated } = require("./Middelware/isAuthenticated");
 
 // Connecting to the database 
 connectDb();
@@ -29,7 +30,7 @@ app.use(
 			saveUninitialized: true,
 			resave: false,
 			cookie: {
-				maxAge: 60000 * 60,
+				maxAge: 60000 * 60 * 24 * 30 ,
 			},
 			store: MongoStore.create({
 				client: mongoose.connection.getClient(),
@@ -43,7 +44,7 @@ app.use(passport.session());
 
 // Defining the routes
 app.use("/api/user" , require('./routes/userRoutes'));
-app.use("api/codes", require('./routes/codeRoutes'))
+app.use("/api/codes", isAuthenticated ,require('./routes/codeRoutes'))
 
 app.listen(port, () => {
     console.log(`App listening on port ${port}`)

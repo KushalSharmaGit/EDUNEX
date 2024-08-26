@@ -1,21 +1,12 @@
 const express = require("express");
 const router = express.Router();
-const passport = require("passport");
-const {createCode} = require('../contoller/codeController')
+const {createCodeFile, saveContent, giveAccess, getCodeFiles, getCodeFile, deleteCodeFile,removeAccess, updateCodeFile} = require('../contoller/codeController')
 
-const Code = require('../model/Code');
-
-
-router.post(
-	"/code-editor",
-	passport.authenticate("local"),
-	(request, response) => {
-		response.sendStatus(200);
-	}
-);
-
-router.get('/code-editor:{id}', (req,res) =>{
-    return req.user ? res.send(req.user) : res.sendStatus(401);
-})
+router.post("/create", createCodeFile)
+router.put("/save/:id", saveContent)
+router.put("/give/:id", giveAccess)
+router.put('/take/:id', removeAccess)
+router.get("/",getCodeFiles)
+router.route("/:id").get(getCodeFile).delete(deleteCodeFile).put(updateCodeFile)
 
 module.exports = router;
