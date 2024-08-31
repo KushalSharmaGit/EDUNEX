@@ -22,8 +22,8 @@ passport.use(
 	new Strategy({usernameField : "email"}, async (email, password, done) => {
 		try {
 			const findUser = await User.findOne({email})
-			if (!findUser) throw new Error("User not found");
-			if (!comparePassword(password, findUser.password)) throw new Error("Bad Credentials");
+			if (!findUser) return done("User not found");
+			if (!comparePassword(password, findUser.password)) return done("Bad Credentials");
 			done(null, findUser);
 		} catch (err) {
 			done(err, null);

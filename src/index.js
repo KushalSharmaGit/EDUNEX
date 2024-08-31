@@ -2,6 +2,7 @@ const cookieParser = require("cookie-parser");
 const express = require("express")
 const session = require("express-session");
 const app = express();
+const cors = require('cors');
 const dotenv = require("dotenv").config();
 const errorHandler = require("./Middelware/errorHandler")
 const connectDb = require('./config/dbConnection');
@@ -20,6 +21,11 @@ const port =process.env.PORT || 5000;
 // Using middelwares
 app.use(express.json());
 app.use(errorHandler) 
+app.use(cors({
+	origin: 'http://localhost:5173', 
+	credentials: true
+  }));
+
 
 
 // Handling cookies and sessions 

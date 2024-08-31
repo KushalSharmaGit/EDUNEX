@@ -11,7 +11,16 @@ router.post(
 	"/login",
 	passport.authenticate("local"),
 	(request, response) => {
-		response.sendStatus(200);
+		try {
+			return response.status(200).json({
+				message:"User Logged in"
+			});
+		} catch (error) {
+			console.log(error)
+			return response.status(400).json({
+				message: "Bad Credentials"
+			})
+		}
 	}
 );
 router.post("/logout", logoutUser)

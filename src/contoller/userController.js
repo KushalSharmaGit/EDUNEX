@@ -9,6 +9,12 @@ const createUser =asyncHandler ( async (req , res) =>{
             message: "All feilds are required"
         })
     }
+    const check = await User.findOne({email});
+    if(check){
+        return res.status(400).json({
+            message: "User already registered"
+        })
+    }
     password = hashPassword(password);
     const user = await User.create({
         name,
