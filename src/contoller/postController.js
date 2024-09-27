@@ -15,7 +15,7 @@ const createPost = asyncHandler( async(req,res) =>{
         tags
     })
     res.status(201).json({
-        message:"Post Create sucessfully"
+        message:"Post Created sucessfully"
     })
 })
 
